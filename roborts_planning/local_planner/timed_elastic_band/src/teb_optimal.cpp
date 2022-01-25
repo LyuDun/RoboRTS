@@ -133,10 +133,10 @@ namespace roborts_local_planner {
 
 
         boost::shared_ptr<g2o::SparseOptimizer> optimizer = boost::make_shared<g2o::SparseOptimizer>();
-        auto linearSolver = std::make_unique<TebLinearSolver>();
+        TebLinearSolver* linearSolver = new TebLinearSolver();
         linearSolver->setBlockOrdering(true);
-        auto blockSolver = std::make_unique<TebBlockSolver>(std::move(linearSolver));
-        g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(std::move(blockSolver));
+        TebBlockSolver* blockSolver = new TebBlockSolver(linearSolver);
+        g2o::OptimizationAlgorithmLevenberg* solver = new g2o::OptimizationAlgorithmLevenberg(blockSolver);
 
         optimizer->setAlgorithm(solver);
 
